@@ -2,6 +2,7 @@ import React from 'react';
 import FormikTextInput from './FormikTextInput';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
+import * as yup from 'yup';
 
 const styles = StyleSheet.create({
   submitButton: {
@@ -11,6 +12,15 @@ const styles = StyleSheet.create({
     margin: 5,
     color: 'white'
   }
+});
+
+const validationSchema = yup.object().shape({
+  username: yup
+    .string()
+    .required(),
+  password: yup
+    .string()
+    .required()
 });
 
 const SignIn = () => {
@@ -26,7 +36,7 @@ const SignIn = () => {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
       {({ handleSubmit }) => 
         <View>
           <FormikTextInput name="username" placeholder="Username" customStyle='signInTextField'/>
