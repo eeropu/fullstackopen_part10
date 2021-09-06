@@ -4,6 +4,8 @@ import { View, Pressable, StyleSheet } from 'react-native';
 import Text from './Text';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import useSignIn from '../hooks/useSignIn';
+import { useHistory } from 'react-router-native';
 
 const styles = StyleSheet.create({
   submitButton: {
@@ -26,14 +28,21 @@ const validationSchema = yup.object().shape({
 
 const SignIn = () => {
 
+  const [ signIn ] = useSignIn();
+  const history = useHistory();
+
   const initialValues = {
     username: '',
     password: ''
   };
 
-  const onSubmit = (values) => {
-    console.log(values.username);
-    console.log(values.password);
+  const onSubmit = async (values) => {
+    try {
+      await signIn(values);
+      history.push('/');      
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
