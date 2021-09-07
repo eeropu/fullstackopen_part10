@@ -31,11 +31,6 @@ const SignIn = () => {
   const [ signIn ] = useSignIn();
   const history = useHistory();
 
-  const initialValues = {
-    username: '',
-    password: ''
-  };
-
   const onSubmit = async (values) => {
     try {
       await signIn(values);
@@ -45,13 +40,23 @@ const SignIn = () => {
     }
   };
 
+  return <SignInForm onSubmit={ onSubmit }/>;
+};
+
+export const SignInForm = ({ onSubmit }) => {
+
+  const initialValues = {
+    username: '',
+    password: ''
+  };
+
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
       {({ handleSubmit }) => 
         <View>
-          <FormikTextInput name="username" placeholder="Username" customStyle='signInTextField'/>
-          <FormikTextInput name="password" placeholder="Password" customStyle='signInTextField' secureTextEntry/>
-          <Pressable onPress={handleSubmit} style={styles.submitButton}>
+          <FormikTextInput name="username" placeholder="Username" customStyle='signInTextField' testID={'username'}/>
+          <FormikTextInput name="password" placeholder="Password" customStyle='signInTextField' testID={'password'} secureTextEntry/>
+          <Pressable onPress={handleSubmit} style={styles.submitButton} testID={'submitButton'}>
             <Text style={{ color: 'white', fontSize: 30, textAlign: 'center' }}>Sign in</Text>
           </Pressable>
         </View>
