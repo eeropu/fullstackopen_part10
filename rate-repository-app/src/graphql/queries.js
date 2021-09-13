@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_REPOSITORIES = gql`
-    query {
-        repositories {
+    query repositories($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection){
+        repositories(orderBy: $orderBy, orderDirection: $orderDirection) {
             edges { 
                 node {
                     id,
@@ -21,40 +21,41 @@ export const GET_REPOSITORIES = gql`
 `;
 
 export const GET_FULL_REPOSITORY_DETAILS = gql`
-query repository($id: ID!){
-    repository(id: $id){
-        id,
-        ownerName,
-        name,
-        createdAt,
-        fullName,
-        reviews {
-            edges {
-                node {
-                    id,
-                    user {
-                        username,
-                        id
-                    },
-                    rating,
-                    createdAt,
-                    text,
+    query repository($id: ID!){
+        repository(id: $id){
+            id,
+            ownerName,
+            name,
+            createdAt,
+            fullName,
+            reviews {
+                edges {
+                    node {
+                        id,
+                        user {
+                            username,
+                            id
+                        },
+                        rating,
+                        createdAt,
+                        text,
+                    }
                 }
-            }
-        },
-        ratingAverage,
-        reviewCount,
-        stargazersCount,
-        watchersCount,
-        forksCount,
-        openIssuesCount,
-        url,
-        ownerAvatarUrl,
-        description,
-        language,
-        authorizedUserHasReviewed
+            },
+            ratingAverage,
+            reviewCount,
+            stargazersCount,
+            watchersCount,
+            forksCount,
+            openIssuesCount,
+            url,
+            ownerAvatarUrl,
+            description,
+            language,
+            authorizedUserHasReviewed
+        }
     }
-}`;
+`;
 
 export const GET_AUTHORIZED_USER = gql`
     query {

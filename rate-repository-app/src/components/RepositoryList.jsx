@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../hooks/useRepositories';
+import OrderBySelection from './OrderBySelection';
 
 const styles = StyleSheet.create({
     separator: {
@@ -16,18 +17,20 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
 
-    const { repositories } = useRepositories();
+    const [ sortRule, setSortRule ] = useState("Latest repositories");
+    const { repositories } = useRepositories(sortRule);
 
-    return <RepositoryListContainer repositories={ repositories } />;
+    return <RepositoryListContainer repositories={ repositories } setSortRule={ setSortRule }/>;
 };
 
-export const RepositoryListContainer = ({ repositories }) => {
+export const RepositoryListContainer = ({ repositories, setSortRule }) => {
     const repositoryNodes = repositories
         ? repositories.edges.map(edge => edge.node)
         : [];
 
     return (
         <FlatList
+            ListHeaderComponent={<OrderBySelection key={'orderSelection'} setSortRule={ setSortRule }/>}
             style={styles.list}
             data={repositoryNodes}
             ItemSeparatorComponent={ItemSeparator}

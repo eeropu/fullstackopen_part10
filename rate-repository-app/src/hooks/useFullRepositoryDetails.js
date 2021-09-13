@@ -3,7 +3,6 @@ import { GET_FULL_REPOSITORY_DETAILS } from "../graphql/queries";
 
 const useFullRepositoryDetails = ( id ) => {
 
-    console.log(id);
     const { data, error, loading } = useQuery(GET_FULL_REPOSITORY_DETAILS, {
         fetchPolicy: 'cache-and-network',
         variables: {

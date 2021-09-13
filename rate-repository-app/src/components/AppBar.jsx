@@ -37,22 +37,40 @@ const AppBar = () => {
             link: '/'
         },
         {
+            name: 'Create a review',
+            link: '/create-a-review'
+        },
+        {
             name: 'Sign in',
             link: '/sign-in'
+        },
+        {
+            name: "Sign up",
+            link: "/sign-up"
         }
     ];
 
+    const createLink = (tab, index) => {
+        return (
+            <Link key={index} to={tab.link} style={styles.link}>
+                <Text style={styles.link}>{tab.name}</Text>
+            </Link>
+        );
+    };
+
     const tabComponents = tabs.map((tab, index) => {
-            if (tab.name !== 'Sign in' || !authorizedUser) {
-                return (
-                    <Link key={index} to={tab.link} style={styles.link}>
-                        <Text style={styles.link}>{tab.name}</Text>
-                    </Link>);
-            } else {
+        switch (tab.name) {
+            case "Repositories":
+                return createLink(tab, index);
+            case "Create a review":
+                return authorizedUser ? createLink(tab, index) : null;
+            case "Sign in":
+            case "Sign up":
+                return !authorizedUser ? createLink(tab, index) : null;
+            default:
                 return null;
-            }
         }
-    );
+    });
 
     const signOut = async () => {
         await authStorage.removeAccessToken();
