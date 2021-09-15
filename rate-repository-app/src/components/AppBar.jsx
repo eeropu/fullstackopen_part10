@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
 
-    const { authorizedUser } = useAuthorizedUser();
+    const { authorizedUser } = useAuthorizedUser({ includeReviews: false });
     const authStorage = useAuthStorage();
     const history = useHistory();
     const apolloClient = useApolloClient();
@@ -47,6 +47,10 @@ const AppBar = () => {
         {
             name: "Sign up",
             link: "/sign-up"
+        },
+        {
+            name: "My reviews",
+            link: '/my-reviews'
         }
     ];
 
@@ -63,6 +67,7 @@ const AppBar = () => {
             case "Repositories":
                 return createLink(tab, index);
             case "Create a review":
+            case "My reviews":
                 return authorizedUser ? createLink(tab, index) : null;
             case "Sign in":
             case "Sign up":

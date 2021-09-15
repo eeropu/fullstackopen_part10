@@ -58,10 +58,26 @@ export const GET_FULL_REPOSITORY_DETAILS = gql`
 `;
 
 export const GET_AUTHORIZED_USER = gql`
-    query {
+    query getAuthorizedUser($includeReviews: Boolean = false){
         authorizedUser {
             id
             username
+            reviews @include(if: $includeReviews) {
+                edges {
+                    node {
+                        id,
+                        rating,
+                        createdAt,
+                        text,
+                        repository {
+                            fullName,
+                            ownerName, 
+                            name,
+                            id
+                        },
+                    }
+                }
+            }
         }
     }
 `;

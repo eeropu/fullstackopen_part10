@@ -34,6 +34,7 @@ export const RepositoryListContainer = ({ repositories, setSortRule }) => {
             style={styles.list}
             data={repositoryNodes}
             ItemSeparatorComponent={ItemSeparator}
+            keyExtractor={({ id }) => id}
             renderItem={({ item }) => <RepositoryItem key={item.id} data={item} />}
         />
     );
